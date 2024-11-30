@@ -3,61 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Management</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>College Management Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="login-section">
-        <h1>Test Management System</h1>
-        <button id="faculty-login">Faculty Login</button>
-        <button id="student-login">Student Login</button>
-    </div>
 
-    <!-- Faculty Section -->
-    <div id="faculty-section" class="hidden">
-        <h2>Faculty Portal</h2>
-        <button id="create-test">Create Test</button>
-        <button id="view-results">View Results</button>
-        <button id="logout-faculty">Logout</button>
+    <nav class="sidebar">
+        <h2>College Portal</h2>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="bus-tracking/index.html" target="_self">Bus Tracking</a></li>
+            <li><a href="test-management/index.html" target="_self">Test Management</a></li>
+            <li><a href="event-management/index.html">Event Management</a></li>
+            <li><a href="#materials">Educational Materials</a></li>
+            <li><a href="https://www.youtube.com/@DrSubbulakshmiNKaranth">Lecturer Videos</a></li>
+            <li><a href="#library">E-Library</a></li>
+            <li><a href="#attendance">Attendance Management</a></li>
+            <li><a href="Election-pole/index.html">Online Election Poll</a></li>
+            <li><a href="#complaints">Complaint Register</a></li>
+            <li><a href="#feedback">Feedback Panel</a></li>
+            <li><a href="https://gemini.google.com/app?hl=en-IN">Chatbot</a></li>
+            <li><a href="https://www.google.com/maps/place/Shri+Madhwa+Vadiraja+Institute+of+Technology+and+Management/@13.2549235,74.7849169,3a,75y,163.87h,108.61t/data=!3m8!1e1!3m6!1sAF1QipOReKdqex4STu2YsicG3iPJzoL22uPtotFZ8OCm!2e10!3e11!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipOReKdqex4STu2YsicG3iPJzoL22uPtotFZ8OCm%3Dw900-h600-k-no-pi-18.614710746537483-ya2.8714516347370136-ro0-fo100!7i8192!8i4096!4m9!3m8!1s0x3bbcaffcb81452c5:0xb18b6b77e04b088b!8m2!3d13.2545952!4d74.7850731!10e5!14m1!1BCgIgARICCAI!16s%2Fm%2F0100qvdl?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D">College Map</a></li>
+            <li><a href="#timetable">Time Table</a></li>
+            <li><a href="#marksheet">Mark Sheet</a></li>
+            <li><a href="#faculty">Faculty Management</a></li>
+        </ul>
+    </nav>
 
-        <div id="test-creation" class="hidden">
-            <h3>Create a Test</h3>
-            <label for="test-title">Test Title:</label>
-            <input type="text" id="test-title">
-            <label for="timer">Set Timer (minutes):</label>
-            <input type="number" id="timer" min="1">
-            <div id="questions">
-                <h4>Questions</h4>
-                <!-- Questions will be dynamically added here -->
-            </div>
-            <button id="add-question">Add Question</button>
-            <button id="save-test">Save Test</button>
-        </div>
+    <main class="content">
+        <section id="dashboard">
+            <h1>Welcome to the College Management System</h1>
+            <p>Select a feature from the sidebar to get started.</p>
+        </section>
 
-        <div id="results-section" class="hidden">
-            <h3>Results</h3>
-            <ul id="results-list">
-                <!-- Results will be dynamically shown here -->
-            </ul>
-        </div>
-    </div>
+        <section id="bus-tracking">
+            <h2>Bus Tracking</h2>
+            <p>View and track buses in real-time.</p>
+            <div id="map"></div>
+        </section>
 
-    <!-- Student Section -->
-    <div id="student-section" class="hidden">
-        <h2>Student Portal</h2>
-        <label for="test-id">Enter Test ID:</label>
-        <input type="text" id="test-id">
-        <button id="start-test">Start Test</button>
-        <div id="test-section" class="hidden">
-            <h3 id="test-title-display"></h3>
-            <form id="test-form">
-                <!-- Questions will be dynamically added here -->
-            </form>
-            <button id="submit-test">Submit Test</button>
-        </div>
-        <button id="logout-student">Logout</button>
-    </div>
+    </main>
 
-    <script src="script.js"></script>
+    <script>
+        let map;
+        let busMarker;
+
+        function initMap() {
+            // Default map center (college or city center coordinates)
+            const centerLocation = { lat:13.254852907546331, lng: 74.78506366562236 }; 
+
+            // Initialize Google Map
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: centerLocation,
+            });
+
+            // Initialize a marker for the bus (with a placeholder location)
+            busMarker = new google.maps.Marker({
+                position: centerLocation,
+                map: map,
+                icon: {
+                    url: "bus.png", // Use a custom bus icon if available
+                    scaledSize: new google.maps.Size(40, 40),
+                },
+                title: "Bus Location",
+            });
+
+            // Start tracking the bus
+            trackBusLocation();
+        }
+
+        function trackBusLocation() {
+            // Fetch bus location every 5 seconds (adjust as needed)
+            setInterval(async () => {
+                try {
+                    const response = await fetch('https://gomaps-pro-api-url/track-bus?busId=2', {
+                        headers: {
+                            'Authorization': 'AlzaSy4RgM3-al-_tZnU7AAT3PhZLtA_p5lYeno'
+                        }
+                    });
+
+                    const data = await response.json();
+                    const { latitude, longitude } = data.location;
+
+                    // Update bus marker position
+                    const newPosition = { lat: latitude, lng: longitude };
+                    busMarker.setPosition(newPosition);
+                    map.setCenter(newPosition);
+
+                } catch (error) {
+                    console.error("Error fetching bus location:", error);
+                }
+            }, 5000);
+        }
+    </script>
+
+    <!-- Load the Google Maps JavaScript API -->
+    <script async defer src="https://maps.gomaps.pro/maps/api/js?key=AlzaSy4RgM3-al-_tZnU7AAT3PhZLtA_p5lYeno&callback=initMap"></script>
+
 </body>
 </html>
+>
