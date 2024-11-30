@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-section">
+        <h1>Test Management System</h1>
+        <button id="faculty-login">Faculty Login</button>
+        <button id="student-login">Student Login</button>
+    </div>
+
+    <!-- Faculty Section -->
+    <div id="faculty-section" class="hidden">
+        <h2>Faculty Portal</h2>
+        <button id="create-test">Create Test</button>
+        <button id="view-results">View Results</button>
+        <button id="logout-faculty">Logout</button>
+
+        <div id="test-creation" class="hidden">
+            <h3>Create a Test</h3>
+            <label for="test-title">Test Title:</label>
+            <input type="text" id="test-title">
+            <label for="timer">Set Timer (minutes):</label>
+            <input type="number" id="timer" min="1">
+            <div id="questions">
+                <h4>Questions</h4>
+                <!-- Questions will be dynamically added here -->
+            </div>
+            <button id="add-question">Add Question</button>
+            <button id="save-test">Save Test</button>
+        </div>
+
+        <div id="results-section" class="hidden">
+            <h3>Results</h3>
+            <ul id="results-list">
+                <!-- Results will be dynamically shown here -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Student Section -->
+    <div id="student-section" class="hidden">
+        <h2>Student Portal</h2>
+        <label for="test-id">Enter Test ID:</label>
+        <input type="text" id="test-id">
+        <button id="start-test">Start Test</button>
+        <div id="test-section" class="hidden">
+            <h3 id="test-title-display"></h3>
+            <form id="test-form">
+                <!-- Questions will be dynamically added here -->
+            </form>
+            <button id="submit-test">Submit Test</button>
+        </div>
+        <button id="logout-student">Logout</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

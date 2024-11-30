@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Register for Event</h1>
+    </header>
+    <main>
+        <form id="registerForm">
+            <label for="studentName">Your Name</label>
+            <input type="text" id="studentName" required placeholder="Enter your name" />
+            
+            <label for="studentEmail">Your Email</label>
+            <input type="email" id="studentEmail" required placeholder="Enter your email" />
+            
+            <input type="hidden" id="eventId" />
+            
+            <button type="submit">Register</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>© 2024 Event Management</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Get the event ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const eventId = urlParams.get('eventId');
+
+        if (eventId) {
+            document.getElementById('eventId').value = eventId;
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('studentName').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const eventId = document.getElementById('eventId').value;
+
+            if (name && email && eventId) {
+                let registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+                registrations.push({ name, email, eventId });
+                localStorage.setItem('registrations', JSON.stringify(registrations));
+
+                alert('Registration successful!');
+                window.location.href = "index.html"; // Redirect to the homepage
+            } else {
+                alert('Please fill out all fields.');
+            }
+        });
+    </script>
+</body>
+</html>
